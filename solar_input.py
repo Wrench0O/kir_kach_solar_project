@@ -30,20 +30,6 @@ def read_space_objects_data_from_file(input_filename):
 
 
 def parse_star_parameters(line, star):
-    parts=line.split()
-    if len(parts) != 8:
-        raise ValueError(f"Invalid star data line: {line}")
-    _, radius, color, mass, x, y, vx, vy = parts
-
-    star.type = "Star"
-    star.R = float(radius)
-    star.color = color
-    star.m = float(mass)
-    star.x = float(x)
-    star.y = float(y)
-    star.Vx = float(vx)
-    star.Vy = float(vy)
-    
     """Считывает данные о звезде из строки.
     Входная строка должна иметь слеюущий формат:
     Star <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>
@@ -75,21 +61,6 @@ def parse_planet_parameters(line, planet):
     **line** — строка с описание планеты.
     **planet** — объект планеты.
     """
-    parts = line.split()
-    if len(parts) != 8:
-        raise ValueError(f"Invalid planet data line: {line}")
-
-    _, radius, color, mass, x, y, vx, vy = parts
-
-    planet.type = "Planet"
-    planet.R = float(radius)
-    planet.color = color
-    planet.m = float(mass)
-    planet.x = float(x)
-    planet.y = float(y)
-    planet.Vx = float(vx)
-    planet.Vy = float(vy)
-    
     pass  # FIXME: not done yet...
 
 
@@ -104,10 +75,18 @@ def write_space_objects_data_to_file(output_filename, space_objects):
     **output_filename** — имя входного файла
     **space_objects** — список объектов планет и звёзд
     """
-    with open(output_filename, 'w') as out_file:
-        for obj in space_objects:
-            print(out_file, "%s %d %s %f" % ('1', 2, '3', 4.5))
-            # FIXME: should store real values
+    def write_space_objects_data_to_file(filename, space_objects):
+        with open(filename, "w") as file:
+            for obj in space_objects:
+                file.write(
+                    f"{obj.type} "
+                    f"{obj.m} "
+                    f"{obj.x} {obj.y} "
+                    f"{obj.Vx} {obj.Vy} "
+                    f"{obj.R}\n"
+                )
+
+    
 
 # FIXME: хорошо бы ещё сделать функцию, сохранающую статистику в заданный файл...
 
